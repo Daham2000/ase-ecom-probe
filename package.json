@@ -1,36 +1,30 @@
 {
-  "name": "imariners-admin-backend",
+  "name": "Server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TheStarkster/imariners-admin-backend.git"
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TheStarkster/imariners-admin-backend/issues"
-  },
-  "homepage": "https://github.com/TheStarkster/imariners-admin-backend#readme",
   "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "deep-email-validator": "^0.1.18",
     "dotenv": "^8.2.0",
+    "email-validator": "^2.0.4",
+    "email-verifier": "^0.4.1",
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.7-alpha.3",
-    "pg": "^8.1.0",
-    "pg-hstore": "^2.3.3",
-    "sequelize": "^5.21.8",
-    "sequelize-cli": "^5.5.1",
-    "uniqid": "^5.4.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.3"
+    "express-validator": "^6.9.2",
+    "joi": "^17.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.9",
+    "nodemon": "^2.0.6",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
   }
 }
