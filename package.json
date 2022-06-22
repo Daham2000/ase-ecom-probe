@@ -1,20 +1,36 @@
 {
-  "name": "ase-ecom-pro",
+  "name": "imariners-admin-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src/js"
+    "dev": "nodemon server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheStarkster/imariners-admin-backend.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheStarkster/imariners-admin-backend/issues"
+  },
+  "homepage": "https://github.com/TheStarkster/imariners-admin-backend#readme",
   "dependencies": {
-    "express": "^4.18.1",
-    "nodemon": "^2.0.16"
+    "@sendgrid/mail": "^7.7.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "pg": "^8.1.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.8",
+    "sequelize-cli": "^5.5.1",
+    "uniqid": "^5.4.0"
   },
   "devDependencies": {
-    "eslint": "^8.18.0"
+    "nodemon": "^2.0.3"
   }
 }
