@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import ProductSchema from "../../schemas/productSchema.js";
 import Joi from "joi";
-import {addProductService} from "./productService.js";
+import {addProductService, deleteProductService, updateProductService} from "./productService.js";
 
 // Get all products function
 export const getProducts = async (req, res) => {
@@ -57,9 +57,7 @@ export const updateProduct = async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(_id))
             return res.status(404).send("No datails for that Id.");
-        const productSchema = new ProductSchema(data.value);
-        const updatedPost = productSchema.update(_id,
-            data.value,);
+        const updatedPost = updateProductService(data.value, _id);
         res.status(201).send(updatedPost);
     } catch (error) {
         res.status(409).json({message: error.message});
@@ -68,14 +66,18 @@ export const updateProduct = async (req, res) => {
 
 // delete product function
 export const deleteProduct = async (req, res) => {
-    const {id} = req.params;
+    const productId = Joi.string().required();
+    const validatedProductId = productId.validate(req.params).value.id;
+    try{
+        if (!mongoose.Types.ObjectId.isValid(validatedProductId))
+            return res.status(404).send("No post with that id");
 
-    if (!mongoose.Types.ObjectId.isValid(id))
-        return res.status(404).send("No post with that id");
+        await deleteProductService(validatedProductId);
+        res.json({massage: "Product deleted"});
+    }catch (e) {
+        res.status(409).json({message: e.message});
+    }
 
-    await ProductSchema.findByIdAndRemove(id);
-
-    res.json({massage: "Post deleted successfully"});
 };
 
 
