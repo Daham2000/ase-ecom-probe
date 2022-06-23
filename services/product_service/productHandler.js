@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import ProductSchema from "../../schemas/productSchema.js";
 import Joi from "joi";
+import {addProductService} from "./productService.js";
 
+// Get all products function
 export const getProducts = async (req, res) => {
     try {
         const postMessage = await ProductSchema.find();
@@ -11,6 +13,7 @@ export const getProducts = async (req, res) => {
     }
 };
 
+// Add new product function
 export const addProduct = async (req, res) => {
     const schema = Joi.object().keys({
         sku: Joi.string(),
@@ -27,14 +30,17 @@ export const addProduct = async (req, res) => {
     try {
         // const imageLinks = await new ContentUploadService().uploadContent(req.files);
         // console.log(imageLinks)
-        const productSchema = new ProductSchema(body);
-        const resp = await productSchema.save();
+
+        // const productSchema = new ProductSchema(body);
+        // const resp = await productSchema.save();
+        const resp = await addProductService(body);
         res.status(201).send(resp);
     } catch (error) {
         res.status(409).json({message: error.message});
     }
 };
 
+//update product function
 export const updateProduct = async (req, res) => {
     const schema = Joi.object({
         sku: Joi.string(),
@@ -51,10 +57,6 @@ export const updateProduct = async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(_id))
             return res.status(404).send("No datails for that Id.");
-        const opts = {
-            runValidators: true,
-            useFindAndModify: true,
-        };
         const productSchema = new ProductSchema(data.value);
         const updatedPost = productSchema.update(_id,
             data.value,);
@@ -64,6 +66,7 @@ export const updateProduct = async (req, res) => {
     }
 };
 
+// delete product function
 export const deleteProduct = async (req, res) => {
     const {id} = req.params;
 

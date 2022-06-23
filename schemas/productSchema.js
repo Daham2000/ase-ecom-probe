@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import DBUtil from "../utill/dbUtill.js";
 
 const productSchema = mongoose.Schema({
     sku: String,
@@ -8,6 +9,6 @@ const productSchema = mongoose.Schema({
     images: [String],
 });
 
-const ProductSchema = mongoose.model('Products', productSchema);
+const ProductSchema = mongoose.model(DBUtil.PRODUCT, productSchema);
 
 export default ProductSchema;
