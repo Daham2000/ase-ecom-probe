@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
-import ProductSchema from "../../schemas/productSchema.js";
 import Joi from "joi";
 import {addProductService, deleteProductService, getAllProductService, updateProductService} from "./productService.js";
+import {uploadContent} from "../content_update_service/contentUploadService.js";
+import ProductModel from "../../models/productModel.js";
 
 // Get all products function
 export const getProducts = async (req, res) => {
@@ -30,15 +31,16 @@ export const addProduct = async (req, res) => {
     })
     const validation = schema.validate(req.body);
     const body = validation.value;
+
     if (validation.error) {
         res.status(401).send(validation.error);
         return;
     }
     try {
-        const imageLinks = await new ContentUploadService().uploadContent(req.files);
-        console.log(imageLinks)
-
-        const productSchema = new ProductSchema(body);
+        const links = await uploadContent(req.files);
+        console.log(links)
+        let product = new ProductModel(body.sku, body.name, body.description, links, body.qty);
+        body.images = links;
         const resp = await addProductService(body);
         res.status(201).send(resp);
     } catch (error) {
