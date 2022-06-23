@@ -35,11 +35,10 @@ export const addProduct = async (req, res) => {
         return;
     }
     try {
-        // const imageLinks = await new ContentUploadService().uploadContent(req.files);
-        // console.log(imageLinks)
+        const imageLinks = await new ContentUploadService().uploadContent(req.files);
+        console.log(imageLinks)
 
-        // const productSchema = new ProductSchema(body);
-        // const resp = await productSchema.save();
+        const productSchema = new ProductSchema(body);
         const resp = await addProductService(body);
         res.status(201).send(resp);
     } catch (error) {
