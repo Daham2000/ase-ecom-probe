@@ -1,12 +1,19 @@
 import mongoose from "mongoose";
 import ProductSchema from "../../schemas/productSchema.js";
 import Joi from "joi";
-import {addProductService, deleteProductService, updateProductService} from "./productService.js";
+import {addProductService, deleteProductService, getAllProductService, updateProductService} from "./productService.js";
 
 // Get all products function
 export const getProducts = async (req, res) => {
+    const schema = Joi.object({
+        query: Joi.string().allow(""),
+        page: Joi.number().default(1),
+        limit: Joi.number().default(10),
+    });
+
+    const filterValidation = schema.validate(req.query);
     try {
-        const postMessage = await ProductSchema.find();
+        const postMessage = await getAllProductService(filterValidation.value);
         res.status(200).json(postMessage);
     } catch (error) {
         res.status(404).json({message: error.message});
@@ -56,7 +63,7 @@ export const updateProduct = async (req, res) => {
     }
     try {
         if (!mongoose.Types.ObjectId.isValid(_id))
-            return res.status(404).send("No datails for that Id.");
+            return res.status(404).send("No details for that Id.");
         const updatedPost = updateProductService(data.value, _id);
         res.status(201).send(updatedPost);
     } catch (error) {
@@ -68,13 +75,13 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     const productId = Joi.string().required();
     const validatedProductId = productId.validate(req.params).value.id;
-    try{
+    try {
         if (!mongoose.Types.ObjectId.isValid(validatedProductId))
             return res.status(404).send("No post with that id");
 
         await deleteProductService(validatedProductId);
         res.json({massage: "Product deleted"});
-    }catch (e) {
+    } catch (e) {
         res.status(409).json({message: e.message});
     }
 
