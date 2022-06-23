@@ -1,17 +1,17 @@
 import fs from 'fs';
-import {S3} from "aws-sdk";
+import * as AWS from "aws-sdk";
 
 export default class ContentUploadService {
-    static async uploadContent(files,
+    async uploadContent(files,
     ) {
         const lists = [];
         const accessKeyId = process.env.AWS_ACCESS_KEY;
         const secretAccessKey = process.env.AWS_SECRET_KEY;
         const bucketName = "contents-1";
 
-        const s3 = new S3({
-            accessKeyId,
-            secretAccessKey
+        const s3 = new AWS.S3({
+            accessKeyId: accessKeyId,
+            secretAccessKey: secretAccessKey
         });
 
         files.map(async image => {
