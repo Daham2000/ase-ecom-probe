@@ -38,10 +38,8 @@ export const addProduct = async (req, res) => {
     }
     try {
         const links = await uploadContent(req.files);
-        console.log(links)
         let product = new ProductModel(body.sku, body.name, body.description, links, body.qty);
-        body.images = links;
-        const resp = await addProductService(body);
+        const resp = await addProductService(product);
         res.status(201).send(resp);
     } catch (error) {
         res.status(409).json({message: error.message});
